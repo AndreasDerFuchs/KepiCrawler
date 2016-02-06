@@ -1,0 +1,9 @@
+*.suo
+*.msi
+*.cache
+*.exe
+*.pdb
+KepiCrawlerSrc/bin/*
+KepiCrawlerSrc/obj/*
+SetupKepiCrawler/bin/*
+SetupKepiCrawler/obj/*
