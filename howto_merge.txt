@@ -4,5 +4,5 @@ How I would do this
 
 git checkout master
 git pull origin master
-git merge test
+git merge branch-name
 git push origin master
