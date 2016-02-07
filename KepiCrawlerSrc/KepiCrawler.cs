@@ -267,8 +267,8 @@ namespace MyKepiCrawler
                 switch (cntDown)
                 {
                     case 59:
-                    case 54:
-                    case 44:
+                    //case 54:
+                    //case 44:
                         this.Show();
                         this.WindowState = FormWindowState.Normal;
                         this.TopMost = true;
