@@ -22,10 +22,10 @@ namespace MyKepiCrawler
         private string subContent = "";
         private int cntDown = 0;
 
-        public Stream GenerateStreamFromString(string s)
+        public Stream GenerateStreamFromString(string s, Encoding pageEncoding)
         {
             MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
+            StreamWriter writer = new StreamWriter(stream, pageEncoding);
             writer.Write(s);
             writer.Flush();
             stream.Position = 0;
@@ -133,6 +133,7 @@ namespace MyKepiCrawler
             string url = "http://212.71.198.9/vp_home/VP_Web.php";
             string postData = "user=kepler&passwort=1571-1630&submit=Anmelden";
             string pageContent = "";
+            Encoding myEencoding = Encoding.GetEncoding("utf-8");
 
             HttpWebRequest myHttpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 
@@ -162,14 +163,14 @@ namespace MyKepiCrawler
             {
                 using (HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse())
                 using (Stream responseStream = myHttpWebResponse.GetResponseStream())
-                using (StreamReader myStreamReader = new StreamReader(responseStream, Encoding.Default))
+                using (StreamReader myStreamReader = new StreamReader(responseStream, myEencoding))
                 {
                     pageContent = myStreamReader.ReadToEnd();
                     string searchString = this.textBox2.Text;
 
                     subContent = "";
-                    using (Stream s = GenerateStreamFromString(pageContent))
-                    using (StreamReader myStreamReader2 = new StreamReader(s, Encoding.Default))
+                    using (Stream s = GenerateStreamFromString(pageContent, myEencoding))
+                    using (StreamReader myStreamReader2 = new StreamReader(s, myEencoding))
                     {
                         string derTag = "";
 
@@ -261,7 +262,7 @@ namespace MyKepiCrawler
             }
             else if (cntDown > 0)
             {
-                this.richTextBox1.Text = String.Format("Sending in {0} seconds:\n{1}", cntDown , subContent);
+                this.richTextBox1.Text = String.Format("Sending in {0} seconds:\n{1}", cntDown, subContent);
                 cntDown--;
                 switch (cntDown)
                 {
