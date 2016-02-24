@@ -8,5 +8,14 @@
     <Setting Name="MySendEmail" Type="System.String" Scope="User">
       <Value Profile="(Default)">Trage hier deine mit ";" getrennten Emailadressen ein, falls du Outlook hast.</Value>
     </Setting>
+    <Setting Name="MyUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kepi</Value>
+    </Setting>
+    <Setting Name="MyPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unkown</Value>
+    </Setting>
+    <Setting Name="UpdateMinutes" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
