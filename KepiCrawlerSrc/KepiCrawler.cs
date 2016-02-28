@@ -21,6 +21,7 @@ namespace MyKepiCrawler
       private string tmpFile = "C:\\Temp\\ask_kepi_plan_auszug.txt";
       private string subContent = "";
       private int cntDown = 0;
+      bool m_show_baloon_tip = true;
 
       public Stream GenerateStreamFromString(string s, Encoding pageEncoding)
       {
@@ -117,7 +118,8 @@ namespace MyKepiCrawler
          if (FormWindowState.Minimized == this.WindowState)
          {
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.ShowBalloonTip(500);
+            if (m_show_baloon_tip)
+               this.notifyIcon1.ShowBalloonTip(500);
             this.Hide();
          }
 #if FALSE
@@ -264,6 +266,9 @@ namespace MyKepiCrawler
       {
          this.Show();
          this.WindowState = FormWindowState.Normal;
+         this.TopMost = true;
+         this.CenterToScreen();
+         this.TopMost = false;
       }
 
       private void timer_CntDwn_Tick(object sender, EventArgs e)
@@ -355,13 +360,13 @@ namespace MyKepiCrawler
       {
          if (this.WindowState != FormWindowState.Normal)
          {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            notifyIcon1_MouseDoubleClick(sender, e);
          }
          else
          {
+            m_show_baloon_tip = false;
             this.WindowState = FormWindowState.Minimized;
-            this.Hide();
+            m_show_baloon_tip = true;
          }
       }
    }

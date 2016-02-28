@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="{308D510E-CABC-46D7-846A-5B650D0F1735}" Name="Kepi Crawler" Language="1033" Version="1.5.0.0" Manufacturer="ASK-Ware" UpgradeCode="58fe4b69-39a0-4cac-b7bc-ed23c1ac3036">
+	<Product Id="{308D510E-CABC-46D7-846A-5B650D0F1735}" Name="Kepi Crawler" Language="1033" Version="1.6.0.0" Manufacturer="ASK-Ware" UpgradeCode="58fe4b69-39a0-4cac-b7bc-ed23c1ac3036">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
