@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,9 @@ namespace MyKepiCrawler
          else
             this.comboBox_UpdateInterval.Text = String.Format("{0} Stunden", Properties.Settings.Default.UpdateMinutes / 60);
 
+         System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+         this.label_Version.Text = fvi.FileDescription + ", Ver" + fvi.FileVersion + ", Image: " + assembly.ImageRuntimeVersion;
       }
 
       private void textBox_Username_Entered(object sender, EventArgs e)

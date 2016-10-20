@@ -36,6 +36,7 @@
          this.label_Interval = new System.Windows.Forms.Label();
          this.comboBox_UpdateInterval = new System.Windows.Forms.ComboBox();
          this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+         this.label_Version = new System.Windows.Forms.Label();
          this.SuspendLayout();
          // 
          // label_Username
@@ -102,19 +103,28 @@
          // 
          // richTextBox1
          // 
-         this.richTextBox1.Enabled = false;
          this.richTextBox1.Location = new System.Drawing.Point(16, 91);
          this.richTextBox1.Name = "richTextBox1";
          this.richTextBox1.ReadOnly = true;
-         this.richTextBox1.Size = new System.Drawing.Size(256, 188);
+         this.richTextBox1.Size = new System.Drawing.Size(256, 169);
          this.richTextBox1.TabIndex = 7;
          this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+         // 
+         // label_Version
+         // 
+         this.label_Version.AutoSize = true;
+         this.label_Version.Location = new System.Drawing.Point(16, 267);
+         this.label_Version.Name = "label_Version";
+         this.label_Version.Size = new System.Drawing.Size(35, 13);
+         this.label_Version.TabIndex = 8;
+         this.label_Version.Text = "label1";
          // 
          // SetupLogin
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(284, 291);
+         this.Controls.Add(this.label_Version);
          this.Controls.Add(this.richTextBox1);
          this.Controls.Add(this.comboBox_UpdateInterval);
          this.Controls.Add(this.label_Interval);
@@ -139,6 +149,7 @@
       private System.Windows.Forms.Label label_Interval;
       private System.Windows.Forms.ComboBox comboBox_UpdateInterval;
       private System.Windows.Forms.RichTextBox richTextBox1;
+      private System.Windows.Forms.Label label_Version;
 
    }
 }
