@@ -22,6 +22,10 @@ namespace MyKepiCrawler
       private string subContent = "";
       private int cntDown = 0;
       bool m_show_baloon_tip = true;
+      bool m_apply_fix = false;
+      int m_fail1_count = 0;
+      int m_fail2_count = 0;
+      int m_fail3_count = 0;
 
       public Stream GenerateStreamFromString(string s, Encoding pageEncoding)
       {
@@ -135,11 +139,18 @@ namespace MyKepiCrawler
          string url = "http://212.71.198.9/vp_home/VP_Web.php";
          string postData = "user=VP_User&passwort=VP_Passwort&submit=Anmelden";
          string pageContent = "";
+         string my_status = string.Format("\napply_fix={0}, m_fail{{1,2,3}}_count={1},{2},{3}\n", m_apply_fix, m_fail1_count, m_fail2_count, m_fail3_count);
          Encoding myEencoding = Encoding.GetEncoding("utf-8");
 
-         HttpWebRequest myHttpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+         HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
          myHttpWebRequest.Method = "POST";
+         myHttpWebRequest.ServicePoint.Expect100Continue = false;
+
+         if (this.m_apply_fix)
+            myHttpWebRequest.KeepAlive = false;
+         else
+            myHttpWebRequest.KeepAlive = true; // true == default
 
          postData = "user=" + Properties.Settings.Default.MyUserName
             + "&passwort=" + Properties.Settings.Default.MyPassword
@@ -163,6 +174,11 @@ namespace MyKepiCrawler
             this.richTextBox1.Text = "GetRequestStream failed: " + ex.Message;
             this.richTextBox1.Text += "\nAt: " + System.DateTime.Now.ToString();
             Thread.Sleep(1000);
+            notifyIcon1_MouseDoubleClick(null, null);
+            Thread.Sleep(1000);
+            this.richTextBox1.Text += "\nFix me using Fiddler4, and tell me what I do wrong. Maybe I need to exit and start all over again? This doesn't sound right!";
+            if (++this.m_fail1_count > 100)
+               this.m_apply_fix = true;            
             return;
          }
 
@@ -176,6 +192,7 @@ namespace MyKepiCrawler
                string searchString = this.textBox2.Text;
 
                subContent = "";
+
                using (Stream s = GenerateStreamFromString(pageContent, myEencoding))
                using (StreamReader myStreamReader2 = new StreamReader(s, myEencoding))
                {
@@ -195,7 +212,9 @@ namespace MyKepiCrawler
                      if (matches.Count > 0)
                      {
                         ln = ln.Replace("&nbsp;", " "); // non-breaking space
-                        subContent += derTag + RemoveBrackets(ln) + '\n';
+                        string line = RemoveBrackets(ln);
+                        line = line.Trim();
+                        subContent += derTag + line + '\n';
                         derTag = "";
                      }
                   }
@@ -212,6 +231,8 @@ namespace MyKepiCrawler
             this.richTextBox1.Text = "GetResponse failed (ProtocolViolation): " + ex.Message;
             this.richTextBox1.Text += "\nAt: " + System.DateTime.Now.ToString();
             Thread.Sleep(1000);
+            if (++this.m_fail2_count > 100)
+               this.m_apply_fix = true;
             return;
          }
          catch (System.Net.WebException ex)
@@ -219,11 +240,13 @@ namespace MyKepiCrawler
             this.richTextBox1.Text = "GetResponse failed (WebException): " + ex.Message;
             this.richTextBox1.Text += "\nAt: " + System.DateTime.Now.ToString();
             Thread.Sleep(1000);
+            if (++this.m_fail3_count > 100)
+               this.m_apply_fix = true;
             return;
          }
 
          this.webBrowser1.DocumentText = pageContent;
-         this.richTextBox1.Text = subContent;
+         this.richTextBox1.Text = my_status + subContent;
 
          string oldSubContent = "";
          try
