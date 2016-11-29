@@ -237,9 +237,9 @@ namespace WpfApplication1
                my_next_state = MyState.WOCHE;
                if (loop_cnt < 1000)
                   System.Console.WriteLine("CCC******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** txt={7}", s0, s, 0, t, i, m, loop_cnt, xx1.value);
-               this.MyText.Text = xx1.value;
+               this.MyText.Text = String.Format("{0}: {1}", Convert.ToDouble(loop_cnt), xx1.value);
                mytimer.Interval = dt_slow;
-               DateTime monday = DateTime.ParseExact(this.MyText.Text, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+               DateTime monday = DateTime.ParseExact(xx1.value, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
                DateTime now = DateTime.Today;
 
                if (now > monday.AddDays(4)) // e.g. monday is this week, and now is Saturday: Saturday > ((Monday+4) == Friday)
