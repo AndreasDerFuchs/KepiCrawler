@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -17,6 +18,8 @@ using System.Windows.Shapes;
 
 namespace WpfApplication1
 {
+
+
    /// <summary>
    /// Interaction logic for MainWindow.xaml
    /// </summary>
@@ -30,6 +33,10 @@ namespace WpfApplication1
       Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
       Timer mytimer;
+      double stored_interval = 0;
+      const double dt_fast = 1000;
+      const double dt_threshold = 1500;
+      const double dt_slow = dt_threshold + 1000;
       public MainWindow()
       {
          string[] args = Environment.GetCommandLineArgs();
@@ -41,11 +48,41 @@ namespace WpfApplication1
          // see http://www.wpf-tutorial.com/misc-controls/the-webbrowser-control/
          InitializeComponent();
          SetAndDeleteLogDir();
+         webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
+         webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
          webBrowser.Navigate("https://tipo.webuntis.com/WebUntis");
          // MyWebWin.Navigate("http://www.wpf-tutorial.com");
-         mytimer = new Timer(1000);
+         mytimer = new Timer(dt_fast); // set mytimer.Interval;
          mytimer.Elapsed += mytimer_Elapsed;
          mytimer.Start();
+      }
+
+      public void SpeedUpTimer()
+      {
+         double dt = mytimer.Interval;
+
+         if (dt < dt_threshold) // mytimer.Interval;
+         {
+            if (dt > 0.1)
+               stored_interval = dt;
+            mytimer.Stop();
+            mytimer.AutoReset = false;
+            mytimer.Interval = 0.1;
+            mytimer.Start();
+         }
+      }
+
+      public void HideScriptErrors(WebBrowser wb, bool hide)
+      {
+         var fiComWebBrowser = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
+         if (fiComWebBrowser == null) return;
+         var objComWebBrowser = fiComWebBrowser.GetValue(wb);
+         if (objComWebBrowser == null)
+         {
+            wb.Loaded += (o, s) => HideScriptErrors(wb, hide); //In case we are to early
+            return;
+         }
+         objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { hide });
       }
 
       // Delegates to enable async calls for setting controls properties
@@ -53,6 +90,11 @@ namespace WpfApplication1
 
       void mytimer_Elapsed(object sender, ElapsedEventArgs e)
       {
+         if (stored_interval > 0.1)
+            mytimer.Interval = stored_interval;
+         mytimer.AutoReset = true;
+
+
          //System.Console.WriteLine(">>>>>>>>>>>>>>>>>> Timer start >>>>>>>>>>>>>>>>>>>");
          if (this.MyButton1.Dispatcher.CheckAccess()) // instead of InvokeRequired
             Button_Click(null, null);
@@ -196,7 +238,7 @@ namespace WpfApplication1
                if (loop_cnt < 1000)
                   System.Console.WriteLine("CCC******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** txt={7}", s0, s, 0, t, i, m, loop_cnt, xx1.value);
                this.MyText.Text = xx1.value;
-               mytimer.Interval = 3000;
+               mytimer.Interval = dt_slow;
                DateTime monday = DateTime.ParseExact(this.MyText.Text, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
                DateTime now = DateTime.Today;
 
@@ -218,7 +260,7 @@ namespace WpfApplication1
                if (s.Contains(m_caret))
                {
                   x14.click();
-                  mytimer.Interval = 2000;
+                  mytimer.Interval = dt_slow;
                   System.Console.WriteLine("DDD******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** clicked at {7}", s0, s, 0, t, i, m, loop_cnt, DateTime.Now.ToLongTimeString());
                }
             }
