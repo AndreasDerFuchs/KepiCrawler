@@ -39,22 +39,39 @@ namespace WpfApplication1
       const double dt_slow = dt_threshold + 1000;
       public MainWindow()
       {
-         string[] args = Environment.GetCommandLineArgs();
-         for (int index = 1; index < args.Length; index += 2)
+         try
          {
-            dictionary.Add(args[index], args[index + 1]);
-         }
+            string[] args = Environment.GetCommandLineArgs();
+            for (int index = 1; index < args.Length; index += 2)
+            {
+               dictionary.Add(args[index], args[index + 1]);
+            }
 
-         // see http://www.wpf-tutorial.com/misc-controls/the-webbrowser-control/
-         InitializeComponent();
-         SetAndDeleteLogDir();
-         webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
-         webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
-         webBrowser.Navigate("https://tipo.webuntis.com/WebUntis");
-         // MyWebWin.Navigate("http://www.wpf-tutorial.com");
-         mytimer = new Timer(dt_fast); // set mytimer.Interval;
-         mytimer.Elapsed += mytimer_Elapsed;
-         mytimer.Start();
+            // see http://www.wpf-tutorial.com/misc-controls/the-webbrowser-control/
+            InitializeComponent();
+            SetAndDeleteLogDir();
+            webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
+            webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
+            webBrowser.Navigate("https://tipo.webuntis.com/WebUntis");
+            // MyWebWin.Navigate("http://www.wpf-tutorial.com");
+            mytimer = new Timer(dt_fast); // set mytimer.Interval;
+            mytimer.Elapsed += mytimer_Elapsed;
+            mytimer.Start();
+         }
+         catch (IOException ex)
+         {
+            // Log it
+            throw;
+         }
+         catch (Exception ex)
+         {
+            // Log it
+            throw new Exception("My MainWindow", ex);
+         }
+         finally
+         {
+            // Normal clean goes here (like closing open files).
+         }
       }
 
       public void SpeedUpTimer()
@@ -273,13 +290,37 @@ namespace WpfApplication1
             }
             if (s0.Equals("mshtml.HTMLHtmlElementClass"))
             {
+               string s_full_text=s;
+               // Remove all text like this in s:
+               // <div class="nowMarker" style="left: 144px; top: 339px; width: 144px;" data-reactid=".0.0.0.8.0.0.3">
+               s = RemoveBlock(s, '<', "nowMarker", '>');
+               s = RemoveBlock(s, '<', "timetableGridColumn", '>', false);
+               s = RemoveBlock(s, '<', "timetableGridRow", '>', false);               
+               s = RemoveBlock(s, '<', "grupetWidgetTimetableEntryContent", '>', false);
+
+// Replace text like: "currentDate":"2016-11-30"
+// With a text like:  "currentDate":"yyyy-mm-dd",
+               s = RemoveBlock(s, '"', "currentDate\":\"", '"', true, "\n\"currentDate\":\"yyyy-mm-dd\"\n");
+
+// Replace text like: span class="date">Mi. 30.11.2016
+// with a text like:  span class="date">DD. dd.mm.yyyy
+               s = RemoveBlock(s, '<', "span class=\"date\">", '>');
+
+// Replace text like: "selectedDay">Mi  30
+// with a text like:  "selectedDay">DD  dd
+               s = RemoveBlock(s, '<', "\"selectedDay\">", '>');
+
+// Replace text like: "selectedMonthYear">November 2016
+// with a text like:  "selectedMonthYear">MMM yyyy
+               s = RemoveBlock(s, '<', "\"selectedMonthYear\">", '>');
+
                if (stored_s != s)
                {
                   stored_s = s;
                   fname = String.Format("{0}\\l{1}-m{2}-i{3}-t{4}-{5}.html", log_path, loop_cnt, m, i, t, s0);
-                  TextWriter tw = new StreamWriter(fname);
-                  tw.WriteLine(s);
-                  tw.Close();
+                  TextWriter tw = new StreamWriter(fname); tw.WriteLine(s); tw.Close();
+                  fname = String.Format("{0}\\s_full_text.html", log_path);
+                  tw = new StreamWriter(fname); tw.WriteLine(s_full_text); tw.Close();
                   System.Console.WriteLine("   ******************** Changes seen at {0} on {1} ************************", DateTime.Now.ToLongTimeString(), DateTime.Now.ToShortDateString());
                }
             }
@@ -287,6 +328,33 @@ namespace WpfApplication1
          if (loop_cnt < 1000)
             System.Console.WriteLine("   ############################ Last file written to {0} #####################", fname);
          my_state = my_next_state;
+      }
+      private string RemoveBlock(string s, char start_char, string tag, char end_char, bool do_remove=true, string replacement="\n")
+      {
+         int i = s.IndexOf(tag);
+         
+         if (i < 0)
+            return s;
+
+         string s1 = s.Substring(0,i);
+         string s2 = s.Substring(i);
+         s2 = s2.Substring(tag.Length); // remove the tag in case it contains the end_char
+         s1 = s1.Substring(0, s1.LastIndexOf(start_char));
+         s2 = s2.Substring(s2.IndexOf(end_char)+1);
+         if (do_remove)
+         {
+            s1 = RemoveBlock(s1 , start_char, tag, end_char, true, replacement);
+            s2 = RemoveBlock(s2, start_char, tag, end_char, true, replacement);
+            return (s1 + replacement + s2);
+         }
+         else
+         {
+            int j = s1.Length, k = s2.Length, l = s.Length;
+            s1 = RemoveBlock(s1, start_char, tag, end_char, do_remove);
+            s2 = RemoveBlock(s2, start_char, tag, end_char, do_remove);
+            tag = s.Substring(j, l - j - k);
+            return (s1 + "\n" + tag + "\n" + s2);
+         }
       }
    }
 }
