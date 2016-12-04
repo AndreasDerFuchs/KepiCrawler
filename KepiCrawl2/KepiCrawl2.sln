@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{15B3565C-30AF-4452-B1D1-94A1B3490B37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KepiCrawl2", "KepiCrawl2\KepiCrawl2.csproj", "{15B3565C-30AF-4452-B1D1-94A1B3490B37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
