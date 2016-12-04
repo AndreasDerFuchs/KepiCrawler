@@ -18,7 +18,30 @@ using System.Windows.Shapes;
 
 namespace WpfApplication1
 {
-
+   public class DictionaryWithDefault<TKey, TValue> : Dictionary<TKey, TValue>
+   {
+      TValue _default;
+      public TValue DefaultValue
+      {
+         get { return _default; }
+         set { _default = value; }
+      }
+      public DictionaryWithDefault() : base() { }
+      public DictionaryWithDefault(TValue defaultValue)
+         : base()
+      {
+         _default = defaultValue;
+      }
+      public new TValue this[TKey key]
+      {
+         get
+         {
+            TValue t;
+            return base.TryGetValue(key, out t) ? t : _default;
+         }
+         set { base[key] = value; }
+      }
+   }
 
    /// <summary>
    /// Interaction logic for MainWindow.xaml
@@ -30,7 +53,7 @@ namespace WpfApplication1
       enum MyState { INIT, STUNDENPLAN, KLASSEN, WOCHE };
       MyState my_state = MyState.INIT;
       string m_caret = "supercalifragilisticexpialidocious";
-      Dictionary<string, string> dictionary = new Dictionary<string, string>();
+      DictionaryWithDefault<string, string> dictionary = new DictionaryWithDefault<string, string>("please-check-command-line-ags");
 
       Timer mytimer;
       double stored_interval = 0;
@@ -45,10 +68,14 @@ namespace WpfApplication1
             for (int index = 1; index < args.Length; index += 2)
             {
                dictionary.Add(args[index], args[index + 1]);
-            }
+            }            
 
             // see http://www.wpf-tutorial.com/misc-controls/the-webbrowser-control/
             InitializeComponent();
+
+            string title = dictionary["Title"];
+            this.MyWindow.Title = title;
+
             SetAndDeleteLogDir();
             webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
             webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
@@ -61,6 +88,7 @@ namespace WpfApplication1
          catch (IOException ex)
          {
             // Log it
+            Console.WriteLine("Exception: {0}", ex.Message);
             throw;
          }
          catch (Exception ex)
