@@ -80,8 +80,8 @@ namespace WpfApplication1
             webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
             webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
             webBrowser.Navigate("https://tipo.webuntis.com/WebUntis");
-            // MyWebWin.Navigate("http://www.wpf-tutorial.com");
-            mytimer = new Timer(dt_fast); // set mytimer.Interval;
+
+            mytimer = new Timer(dt_fast); // calls set mytimer.Interval;
             mytimer.Elapsed += mytimer_Elapsed;
             mytimer.Start();
          }
@@ -180,7 +180,20 @@ namespace WpfApplication1
          mshtml.HTMLDocument doc = this.webBrowser.Document as mshtml.HTMLDocument;
          int m = 0;
          string user = dictionary["User"];    // The Command line arguments may be e.g.
-         string password = dictionary["Pw"];  // User 5b Pw Schnabel, or User 8d Pw Lechner
+         string password = dictionary["Pw"];  // Schule "kepi tuebingen" User 5b Pw Schnabel Title 5er, or
+         string schule = dictionary["Schule"];// Schule "kepi tuebingen" User 8d Pw Lechner Title 5er
+         string d = dictionary.DefaultValue;
+         if (user == d || password == d || schule == d)
+         {
+            mytimer.Interval = dt_fast+500;
+            Console.WriteLine("Syntax: {0} Schule <schulname> User <username> Pw <password> Title <egal-was>", System.AppDomain.CurrentDomain.FriendlyName);
+            Console.WriteLine("e.g.    {0} Schule \"kepi tuebingen\" User 5b Pw Schnabel Title 5er", System.AppDomain.CurrentDomain.FriendlyName);
+            if (loop_cnt >= 3)
+            {
+               System.Environment.Exit(1);
+            }
+         }
+
 
          loop_cnt++;
 
@@ -192,10 +205,10 @@ namespace WpfApplication1
          }
 
          mshtml.HTMLInputElement el_school = doc.getElementById("school") as mshtml.HTMLInputElement;
-         if (el_school != null) { ++m; el_school.setAttribute("value", "kepi tuebingen"); }
+         if (el_school != null) { ++m; el_school.setAttribute("value", schule); }
 
          mshtml.HTMLInputElement el_schooln = doc.getElementById("loginWidget.idschoolname") as mshtml.HTMLInputElement;
-         if (el_schooln != null){++m;  el_schooln.setAttribute("value", "kepi tuebingen");}
+         if (el_schooln != null){++m;  el_schooln.setAttribute("value", schule);}
 
          mshtml.HTMLInputElement el_usernam = doc.getElementById("loginWidget.idusername") as mshtml.HTMLInputElement;
          if (el_usernam != null) { ++m; el_usernam.setAttribute("value", user); }
