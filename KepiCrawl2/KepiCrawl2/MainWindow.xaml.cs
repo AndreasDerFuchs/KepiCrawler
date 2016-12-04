@@ -65,7 +65,7 @@ namespace KepiCrawler
          try
          {
             string[] args = Environment.GetCommandLineArgs();
-            for (int index = 1; index < args.Length; index += 2)
+            for (int index = 1; index < (args.Length-1); index += 2)
             {
                dictionary.Add(args[index], args[index + 1]);
             }            
@@ -153,7 +153,8 @@ namespace KepiCrawler
 
       private void SetAndDeleteLogDir()
       {
-         log_path = String.Format("{0}\\Log", Directory.GetCurrentDirectory());
+         string user = dictionary["User"];
+         log_path = String.Format("{0}\\Log-{1}", Directory.GetCurrentDirectory(), user);
          System.IO.Directory.CreateDirectory(log_path);
 
          System.IO.DirectoryInfo di = new DirectoryInfo(log_path);
@@ -162,17 +163,18 @@ namespace KepiCrawler
          {
             try
             {
-               file.Delete();
+               if (file.Name[0] == 'l')
+                  file.Delete();
             }
             catch(Exception e)
             {
                System.Console.WriteLine("Could not delete file {0}: {1}", file.Name, e.Message);
             }
          }
-         foreach (DirectoryInfo dir in di.GetDirectories())
-         {
-            dir.Delete(true);
-         }
+         // foreach (DirectoryInfo dir in di.GetDirectories())
+         // {
+         //    dir.Delete(true);
+         // }
       }
 
       private void Button_Click(object sender, RoutedEventArgs e)
@@ -295,7 +297,7 @@ namespace KepiCrawler
                my_next_state = MyState.WOCHE;
                if (loop_cnt < 1000)
                   System.Console.WriteLine("CCC******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** txt={7}", s0, s, 0, t, i, m, loop_cnt, xx1.value);
-               this.MyText.Text = String.Format("{0}: {1}", Convert.ToDouble(loop_cnt), xx1.value);
+               this.MyText.Text = String.Format("{0}: {1} {2}", Convert.ToDouble(loop_cnt), DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
                mytimer.Interval = dt_slow;
                DateTime monday = DateTime.ParseExact(xx1.value, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
                DateTime now = DateTime.Today;

@@ -19,7 +19,7 @@
                 </TransformGroup>
             </WebBrowser.RenderTransform>
         </WebBrowser>
-        <TextBlock x:Name="MyText" HorizontalAlignment="Left" Margin="116,568,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="20" Width="190"/>
+        <TextBlock x:Name="MyText" HorizontalAlignment="Left" Margin="116,568,0,0" TextWrapping="Wrap" Text="Last poll time" VerticalAlignment="Top" Height="20" Width="190"/>
 
     </Grid>
 </Window>
