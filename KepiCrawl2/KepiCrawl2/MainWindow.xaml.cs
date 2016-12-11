@@ -60,6 +60,9 @@ namespace KepiCrawler
       const double dt_fast = 1000;
       const double dt_threshold = 1500;
       const double dt_slow = dt_threshold + 1000;
+      const double dt_5min = 1000 * 60 * 5;
+      string id_string = DateTime.Now.ToString("G");
+
       public MainWindow()
       {
          try
@@ -84,6 +87,8 @@ namespace KepiCrawler
             mytimer = new Timer(dt_fast); // calls set mytimer.Interval;
             mytimer.Elapsed += mytimer_Elapsed;
             mytimer.Start();
+
+            MyWindow.Closing += MyWindow_Closing;
          }
          catch (IOException ex)
          {
@@ -221,10 +226,45 @@ namespace KepiCrawler
          // {
          //    dir.Delete(true);
          // }
+         CreateIdFile();
+      }
+      void CreateIdFile()
+      {
+         string fname = String.Format("{0}\\KepiCrawl2-ID.txt", log_path);
+         TextWriter tw = new StreamWriter(fname); tw.WriteLine(id_string); tw.Close();
+      }
+      void CheckIdFile()
+      {
+         string fname = String.Format("{0}\\KepiCrawl2-ID.txt", log_path);
+         string line;
+         try
+         {
+            TextReader tr = new StreamReader(fname);
+            line = tr.ReadLine();
+            tr.Close();
+         }
+         catch
+         {
+            line = "file does not exist";
+         }
+         if (!line.Equals(id_string))
+         {
+            id_string = "closing";
+            Application.Current.Shutdown();
+         }
+      }
+      void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+      {
+         if (id_string != "closing")
+         {
+            MyWindow.WindowState = WindowState.Minimized;
+            e.Cancel = true;
+         }
       }
 
       private void Button_Click(object sender, RoutedEventArgs e)
       {
+         CheckIdFile();
          mshtml.HTMLDocument doc = this.webBrowser.Document as mshtml.HTMLDocument;
          int m = 0;
          string user = dictionary["User"];    // The Command line arguments may be e.g.
@@ -358,7 +398,7 @@ namespace KepiCrawler
                else
                {
                   m_caret = "supercalifragilisticexpialidocious";
-                  mytimer.Interval = 1000*60*5; // 5 Minute Wait
+                  mytimer.Interval = dt_5min; // 5 Minute Wait
                }
             }
             else if (s0.Equals("mshtml.HTMLSpanElementClass") && s.Contains("fa fa-caret-") && my_state == MyState.WOCHE)
@@ -414,6 +454,13 @@ namespace KepiCrawler
                   fname = String.Format("{0}\\s_full_text.html", log_path);
                   tw = new StreamWriter(fname); tw.WriteLine(s_full_text); tw.Close();
                   System.Console.WriteLine("   ******************** Changes seen at {0} on {1} ************************", DateTime.Now.ToLongTimeString(), DateTime.Now.ToShortDateString());
+                  {
+                     if (MyWindow.WindowState == WindowState.Minimized)
+                        MyWindow.WindowState = WindowState.Normal;
+                     MyWindow.Topmost = true;
+                     MyWindow.Activate();
+                     MyWindow.Topmost = false;
+                  }
                }
             }
          }
