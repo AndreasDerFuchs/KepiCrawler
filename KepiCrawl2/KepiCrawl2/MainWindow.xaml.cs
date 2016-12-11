@@ -75,7 +75,7 @@ namespace KepiCrawler
 
             string title = dictionary["Title"];
             this.MyWindow.Title = title;
-
+            SetSizeAndPosition();
             SetAndDeleteLogDir();
             webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
             webBrowser.Navigated += (a, b) => { SpeedUpTimer(); };
@@ -94,6 +94,7 @@ namespace KepiCrawler
          catch (Exception ex)
          {
             // Log it
+            Console.WriteLine("Exception: {0}", ex.Message);
             throw new Exception("My MainWindow", ex);
          }
          finally
@@ -141,14 +142,59 @@ namespace KepiCrawler
 
 
          //System.Console.WriteLine(">>>>>>>>>>>>>>>>>> Timer start >>>>>>>>>>>>>>>>>>>");
-         if (this.MyButton1.Dispatcher.CheckAccess()) // instead of InvokeRequired
+         if (this.MyButtonUpdate.Dispatcher.CheckAccess()) // instead of InvokeRequired
             Button_Click(null, null);
          else
          {
             PushButtonCallback d = new PushButtonCallback(Button_Click);
-            this.MyButton1.Dispatcher.Invoke(d, new object[] { this.MyButton1, null});
+            this.MyButtonUpdate.Dispatcher.Invoke(d, new object[] { this.MyButtonUpdate, null});
          }
          //System.Console.WriteLine("<<<<<<<<<<<<<<<<<< Timer end <<<<<<<<<<<<<<<<<<<<<");
+      }
+      public void SetSizeAndPosition()
+      {
+         string pos = dictionary["-geometry"]; // e.g. -geometry 720x692+20+50
+         if (pos != dictionary.DefaultValue)
+         {
+            int char_x_pos = pos.IndexOf('x');
+            int char_plus_pos = pos.IndexOf('+');
+            int char_minus_pos = pos.IndexOf('-');
+            if ((char_minus_pos >= 0) && ((char_minus_pos < char_plus_pos) || (char_plus_pos<0)))
+               char_plus_pos = char_minus_pos;
+            int height_str_end = char_plus_pos > 0 ? (char_plus_pos - 1) : (pos.Length - 1);
+            if (char_x_pos >= 0)
+            {
+               if (char_x_pos > 0)
+               {
+                  string width_str = pos.Substring(0, char_x_pos);
+                  this.MyWindow.Width = Convert.ToDouble(width_str);
+               }
+               if (height_str_end > char_x_pos)
+               {
+                  string height_str = pos.Substring(char_x_pos + 1, height_str_end - char_x_pos);
+                  this.MyWindow.Height = Convert.ToDouble(height_str);
+               }
+            }
+            if (char_plus_pos >= 0)
+            {
+               int char_plus2_pos = pos.IndexOf('+', char_plus_pos + 1);
+               int char_minus2_pos = pos.IndexOf('-', char_plus_pos + 1);
+               if ((char_minus2_pos >= 0) && ((char_minus2_pos < char_plus2_pos) || (char_plus2_pos<0)))
+                  char_plus2_pos = char_minus2_pos;
+               int x_str_end = char_plus2_pos > 0 ? (char_plus2_pos - 1) : (pos.Length - 1);
+               if (x_str_end > char_plus_pos)
+               {
+                  string x_str = pos.Substring(char_plus_pos, 1 + x_str_end - char_plus_pos);
+                  this.MyWindow.Left = Convert.ToDouble(x_str);
+               }
+               int y_str_end = (char_plus2_pos < 0) ? char_plus2_pos : (pos.Length - 1);
+               if (y_str_end > char_plus2_pos)
+               {
+                  string y_str = pos.Substring(char_plus2_pos, 1 + y_str_end - char_plus2_pos);
+                  this.MyWindow.Top = Convert.ToDouble(y_str);
+               }
+            }
+         }
       }
 
       private void SetAndDeleteLogDir()
@@ -188,6 +234,7 @@ namespace KepiCrawler
          if (user == d || password == d || schule == d)
          {
             mytimer.Interval = dt_fast+500;
+            /* Beschreibung der Kommandozeilenparameter Schule, User, Pw und Title: */
             Console.WriteLine("Syntax: {0} Schule <schulname> User <username> Pw <password> Title <egal-was>", System.AppDomain.CurrentDomain.FriendlyName);
             Console.WriteLine("e.g.    {0} Schule \"kepi tuebingen\" User 5b Pw Schnabel Title 5er", System.AppDomain.CurrentDomain.FriendlyName);
             if (loop_cnt >= 3)
@@ -297,7 +344,9 @@ namespace KepiCrawler
                my_next_state = MyState.WOCHE;
                if (loop_cnt < 1000)
                   System.Console.WriteLine("CCC******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** txt={7}", s0, s, 0, t, i, m, loop_cnt, xx1.value);
-               this.MyText.Text = String.Format("{0}: {1} {2}", Convert.ToDouble(loop_cnt), DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
+               // Creates a CultureInfo for German in Germany.
+               System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("de-DE");
+               this.MyUpdateText.Text = String.Format("Update {0}: {1}", Convert.ToDouble(loop_cnt), DateTime.Now.ToString("G", ci));
                mytimer.Interval = dt_slow;
                DateTime monday = DateTime.ParseExact(xx1.value, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
                DateTime now = DateTime.Today;

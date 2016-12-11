@@ -1,15 +1,9 @@
 ﻿<Window x:Name="MyWindow" x:Class="KepiCrawler.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="655" Width="852">
-    <Grid x:Name="MyMainWin" Margin="0,10,2,0" RenderTransformOrigin="0.518,0.445" VerticalAlignment="Top" Height="598">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="196*"/>
-            <ColumnDefinition Width="174*"/>
-            <ColumnDefinition Width="51*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="MyButton1" Content="Button" HorizontalAlignment="Left" Margin="306,568,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click" Height="30" Grid.Column="1" RenderTransformOrigin="-1.993,0.6" Grid.ColumnSpan="2"/>
-        <WebBrowser x:Name="webBrowser" HorizontalAlignment="Left" Margin="-3,-132,-7,0" Width="852" OpacityMask="Black" RenderTransformOrigin="0.5,0.5" Height="696" VerticalAlignment="Top" Grid.ColumnSpan="3">
+        Title="MainWindow" Height="688" Width="720" Icon="Resources/KepiCrawler.ico">
+    <Grid x:Name="MyMainWin" Margin="0" RenderTransformOrigin="0.518,0.445">
+        <WebBrowser x:Name="webBrowser" Margin="3,-132,3,36" OpacityMask="Black" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
             <WebBrowser.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -19,7 +13,7 @@
                 </TransformGroup>
             </WebBrowser.RenderTransform>
         </WebBrowser>
-        <TextBlock x:Name="MyText" HorizontalAlignment="Left" Margin="116,568,0,0" TextWrapping="Wrap" Text="Last poll time" VerticalAlignment="Top" Height="20" Width="190"/>
-
+        <TextBlock x:Name="MyUpdateText" HorizontalAlignment="Left" Margin="10,568,0,8" TextWrapping="Wrap" Text="Last Update time" VerticalAlignment="Bottom" Height="20" Width="190"/>
+        <Button x:Name="MyButtonUpdate" Content="Update" HorizontalAlignment="Right" Margin="306,568,41,5" VerticalAlignment="Bottom" Width="74" Click="Button_Click" Height="30" Grid.Column="1" RenderTransformOrigin="-1.784,0.5" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>
