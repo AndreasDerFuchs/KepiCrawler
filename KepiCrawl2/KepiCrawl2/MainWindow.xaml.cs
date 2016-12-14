@@ -323,7 +323,7 @@ namespace KepiCrawler
          mshtml.HTMLDocument doc2 = doc;
          mshtml.IHTMLElementCollection elc2 = doc2.all;
          bool check = false;
-         string fname="none";
+         string fname=null;
          int i = 0;
          MyState my_next_state = my_state;
          foreach (var x in elc2)
@@ -428,7 +428,6 @@ namespace KepiCrawler
                string s_full_text=s;
                // Remove all text like this in s:
                // <div class="nowMarker" style="left: 144px; top: 339px; width: 144px;" data-reactid=".0.0.0.8.0.0.3">
-               s = RemoveBlock(s, '<', "data-reactid=", '>');
                s = RemoveBlock(s, '<', "nowMarker", '>');
                s = RemoveBlock(s, '<', "timetableGridColumn", '>', false);
                s = RemoveBlock(s, '<', "timetableGridRow", '>', false);               
@@ -450,14 +449,24 @@ namespace KepiCrawler
 // with a text like:  "selectedMonthYear">MMM yyyy
                s = RemoveBlock(s, '<', "\"selectedMonthYear\">", '>');
 
+               string s_reduced = s;
+               s = RemoveBlock(s, '<', "data-reactid=", '>');
+               s = RemoveBlock(s, '<', "dijitBorderContainerNoGutter", '>');
+               s = RemoveBlock(s, '<', "id=\"Timetable_toolbar\"", '>');
+               s = RemoveBlock(s, '<', "id=\"grupet_widget_LabelPanel_", '>');
+               s = RemoveBlock(s, '<', "id=\"dijit_layout__LayoutWidget_", '>');
+               s = RemoveBlock(s, '<', "grupet_widget_MainMenu_dropDownPopup", '>');
+               s = RemoveBlock(s, '<', "dijitPopupMenuItem", '>');
+               s = RemoveBlock(s, '<', "grupet_widget_MainMenu", '>');
+               s = RemoveBlock(s, '<', "/tbody></table></div", '>');
                if (stored_s != s)
                {
                   stored_s = s;
                   fname = String.Format("{0}\\l{1}-m{2}-i{3}-t{4}-{5}.html", log_path, loop_cnt, m, i, t, s0);
-                  TextWriter tw = new StreamWriter(fname); tw.WriteLine(s); tw.Close();
+                  TextWriter tw = new StreamWriter(fname); tw.WriteLine(s_reduced); tw.Close();
                   fname = String.Format("{0}\\s_full_text.html", log_path);
                   tw = new StreamWriter(fname); tw.WriteLine(s_full_text); tw.Close();
-                  System.Console.WriteLine("   ******************** Changes seen at {0} ************************", DateTime.Now.ToString("G", ci));
+                  System.Console.WriteLine("   *************** Changes seen at {0} *******************", DateTime.Now.ToString("G", ci));
                   {
                      if (MyWindow.WindowState == WindowState.Minimized)
                         MyWindow.WindowState = WindowState.Normal;
@@ -468,7 +477,7 @@ namespace KepiCrawler
                }
             }
          }
-         if (loop_cnt < 1000)
+         if ((loop_cnt < 1000) && (fname != null))
             System.Console.WriteLine("   ############################ Last file written to {0} #####################", fname);
          my_state = my_next_state;
       }
