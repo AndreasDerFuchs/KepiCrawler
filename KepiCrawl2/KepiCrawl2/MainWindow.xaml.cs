@@ -57,9 +57,9 @@ namespace KepiCrawler
 
       Timer mytimer;
       double stored_interval = 0;
-      const double dt_fast = 1000;
-      const double dt_threshold = 1500;
-      const double dt_slow = dt_threshold + 1000;
+      const double dt_fast = 500;
+      const double dt_threshold = 1000;
+      const double dt_slow = dt_threshold + 500;
       const double dt_12min = 1000 * 60 * 12;
       string id_string = DateTime.Now.ToString("G");
 
@@ -274,7 +274,7 @@ namespace KepiCrawler
          string d = dictionary.DefaultValue;
          if (user == d || password == d || schule == d)
          {
-            mytimer.Interval = dt_fast+500;
+            mytimer.Interval = dt_slow;
             /* Beschreibung der Kommandozeilenparameter Schule, User, Pw und Title: */
             Console.WriteLine("Syntax: {0} Schule <schulname> User <username> Pw <password> Title <egal-was>", System.AppDomain.CurrentDomain.FriendlyName);
             Console.WriteLine("e.g.    {0} Schule \"kepi tuebingen\" User 5b Pw Schnabel Title 5er", System.AppDomain.CurrentDomain.FriendlyName);
@@ -400,7 +400,6 @@ namespace KepiCrawler
                else
                {
                   m_caret = "supercalifragilisticexpialidocious";
-                  mytimer.Interval = dt_12min; // 12 Minute Wait
                   my_next_state = MyState.UPDATE;
                }
             }
@@ -425,7 +424,8 @@ namespace KepiCrawler
             if (s0.Equals("mshtml.HTMLHtmlElementClass") && (my_state == MyState.UPDATE))
             {
                my_next_state = MyState.INIT;
-               string s_full_text=s;
+               mytimer.Interval = dt_12min; // 12 Minute Wait
+               string s_full_text = s;
                // Remove all text like this in s:
                // <div class="nowMarker" style="left: 144px; top: 339px; width: 144px;" data-reactid=".0.0.0.8.0.0.3">
                s = RemoveBlock(s, '<', "nowMarker", '>');
@@ -461,9 +461,12 @@ namespace KepiCrawler
                s = RemoveBlock(s, '<', "/tbody></table></div", '>');
                if (stored_s != s)
                {
+                  TextWriter tw;
                   stored_s = s;
                   fname = String.Format("{0}\\l{1}-m{2}-i{3}-t{4}-{5}.html", log_path, loop_cnt, m, i, t, s0);
-                  TextWriter tw = new StreamWriter(fname); tw.WriteLine(s_reduced); tw.Close();
+                  tw = new StreamWriter(fname); tw.WriteLine(s_reduced);   tw.Close();
+                  fname = String.Format("{0}\\s{1}-m{2}-i{3}-t{4}-{5}.txt", log_path, loop_cnt, m, i, t, s0);
+                  tw = new StreamWriter(fname); tw.WriteLine(s);           tw.Close();
                   fname = String.Format("{0}\\s_full_text.html", log_path);
                   tw = new StreamWriter(fname); tw.WriteLine(s_full_text); tw.Close();
                   System.Console.WriteLine("   *************** Changes seen at {0} *******************", DateTime.Now.ToString("G", ci));
