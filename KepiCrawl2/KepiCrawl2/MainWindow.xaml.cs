@@ -49,8 +49,8 @@ namespace KepiCrawler
    public partial class MainWindow : Window
    {
       UInt64 loop_cnt = 0;
-      string log_path, stored_s = "nix"; 
-      enum MyState { INIT, STUNDENPLAN, KLASSEN, WOCHE, UPDATE};
+      string log_path, stored_s = "nix";
+      enum MyState { INIT, STUNDENPLAN, KLASSEN, WOCHE, UPDATE };
       MyState my_state = MyState.INIT;
       string m_caret = "supercalifragilisticexpialidocious";
       DictionaryWithDefault<string, string> dictionary = new DictionaryWithDefault<string, string>("please-check-command-line-ags");
@@ -68,10 +68,10 @@ namespace KepiCrawler
          try
          {
             string[] args = Environment.GetCommandLineArgs();
-            for (int index = 1; index < (args.Length-1); index += 2)
+            for (int index = 1; index < (args.Length - 1); index += 2)
             {
                dictionary.Add(args[index], args[index + 1]);
-            }            
+            }
 
             // see http://www.wpf-tutorial.com/misc-controls/the-webbrowser-control/
             InitializeComponent();
@@ -152,7 +152,7 @@ namespace KepiCrawler
          else
          {
             PushButtonCallback d = new PushButtonCallback(Button_Click);
-            this.MyButtonUpdate.Dispatcher.Invoke(d, new object[] { this.MyButtonUpdate, null});
+            this.MyButtonUpdate.Dispatcher.Invoke(d, new object[] { this.MyButtonUpdate, null });
          }
          //System.Console.WriteLine("<<<<<<<<<<<<<<<<<< Timer end <<<<<<<<<<<<<<<<<<<<<");
       }
@@ -164,7 +164,7 @@ namespace KepiCrawler
             int char_x_pos = pos.IndexOf('x');
             int char_plus_pos = pos.IndexOf('+');
             int char_minus_pos = pos.IndexOf('-');
-            if ((char_minus_pos >= 0) && ((char_minus_pos < char_plus_pos) || (char_plus_pos<0)))
+            if ((char_minus_pos >= 0) && ((char_minus_pos < char_plus_pos) || (char_plus_pos < 0)))
                char_plus_pos = char_minus_pos;
             int height_str_end = char_plus_pos > 0 ? (char_plus_pos - 1) : (pos.Length - 1);
             if (char_x_pos >= 0)
@@ -184,7 +184,7 @@ namespace KepiCrawler
             {
                int char_plus2_pos = pos.IndexOf('+', char_plus_pos + 1);
                int char_minus2_pos = pos.IndexOf('-', char_plus_pos + 1);
-               if ((char_minus2_pos >= 0) && ((char_minus2_pos < char_plus2_pos) || (char_plus2_pos<0)))
+               if ((char_minus2_pos >= 0) && ((char_minus2_pos < char_plus2_pos) || (char_plus2_pos < 0)))
                   char_plus2_pos = char_minus2_pos;
                int x_str_end = char_plus2_pos > 0 ? (char_plus2_pos - 1) : (pos.Length - 1);
                if (x_str_end > char_plus_pos)
@@ -217,7 +217,7 @@ namespace KepiCrawler
                if (file.Name[0] == 'l')
                   file.Delete();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                System.Console.WriteLine("Could not delete file {0}: {1}", file.Name, e.Message);
             }
@@ -298,7 +298,7 @@ namespace KepiCrawler
          if (el_school != null) { ++m; el_school.setAttribute("value", schule); }
 
          mshtml.HTMLInputElement el_schooln = doc.getElementById("loginWidget.idschoolname") as mshtml.HTMLInputElement;
-         if (el_schooln != null){++m;  el_schooln.setAttribute("value", schule);}
+         if (el_schooln != null) { ++m; el_schooln.setAttribute("value", schule); }
 
          mshtml.HTMLInputElement el_usernam = doc.getElementById("loginWidget.idusername") as mshtml.HTMLInputElement;
          if (el_usernam != null) { ++m; el_usernam.setAttribute("value", user); }
@@ -323,7 +323,7 @@ namespace KepiCrawler
          mshtml.HTMLDocument doc2 = doc;
          mshtml.IHTMLElementCollection elc2 = doc2.all;
          bool check = false;
-         string fname=null;
+         string fname = null;
          int i = 0;
          MyState my_next_state = my_state;
          foreach (var x in elc2)
@@ -430,7 +430,7 @@ namespace KepiCrawler
                // <div class="nowMarker" style="left: 144px; top: 339px; width: 144px;" data-reactid=".0.0.0.8.0.0.3">
                s = RemoveBlock(s, '<', "nowMarker", '>');
                s = RemoveBlock(s, '<', "timetableGridColumn", '>', false);
-               s = RemoveBlock(s, '<', "timetableGridRow", '>', false);               
+               s = RemoveBlock(s, '<', "timetableGridRow", '>', false);
                s = RemoveBlock(s, '<', "grupetWidgetTimetableEntryContent", '>', false);
 
 // Replace text like: "currentDate":"2016-11-30"
@@ -450,6 +450,7 @@ namespace KepiCrawler
                s = RemoveBlock(s, '<', "\"selectedMonthYear\">", '>');
 
                string s_reduced = s;
+               s = RemoveBlock(s, '<', "script", '>', true, "");
                s = RemoveBlock(s, '<', "data-reactid=", '>');
                s = RemoveBlock(s, '<', "dijitBorderContainerNoGutter", '>');
                s = RemoveBlock(s, '<', "id=\"Timetable_toolbar\"", '>');
@@ -464,9 +465,9 @@ namespace KepiCrawler
                   TextWriter tw;
                   stored_s = s;
                   fname = String.Format("{0}\\l{1}-m{2}-i{3}-t{4}-{5}.html", log_path, loop_cnt, m, i, t, s0);
-                  tw = new StreamWriter(fname); tw.WriteLine(s_reduced);   tw.Close();
+                  tw = new StreamWriter(fname); tw.WriteLine(s_reduced); tw.Close();
                   fname = String.Format("{0}\\s{1}-m{2}-i{3}-t{4}-{5}.txt", log_path, loop_cnt, m, i, t, s0);
-                  tw = new StreamWriter(fname); tw.WriteLine(s);           tw.Close();
+                  tw = new StreamWriter(fname); tw.WriteLine(s); tw.Close();
                   fname = String.Format("{0}\\s_full_text.html", log_path);
                   tw = new StreamWriter(fname); tw.WriteLine(s_full_text); tw.Close();
                   System.Console.WriteLine("   *************** Changes seen at {0} *******************", DateTime.Now.ToString("G", ci));
@@ -484,30 +485,36 @@ namespace KepiCrawler
             System.Console.WriteLine("   ############################ Last file written to {0} #####################", fname);
          my_state = my_next_state;
       }
-      private string RemoveBlock(string s, char start_char, string tag, char end_char, bool do_remove=true, string replacement="\n")
+      private string RemoveBlock(string s, char start_char, string tag, char end_char, bool do_remove = true, string replacement = "\n")
       {
          int i = s.IndexOf(tag);
-         
+
          if (i < 0)
             return s;
 
-         string s1 = s.Substring(0,i);
+         string s1 = s.Substring(0, i);
          string s2 = s.Substring(i);
          s2 = s2.Substring(tag.Length); // remove the tag in case it contains the end_char
-         s1 = s1.Substring(0, s1.LastIndexOf(start_char));
-         s2 = s2.Substring(s2.IndexOf(end_char)+1);
+         int len = s1.LastIndexOf(start_char);
+         if (len < 0)
+            return s;
+         s1 = s1.Substring(0, len);
+         s2 = s2.Substring(s2.IndexOf(end_char) + 1);
          if (do_remove)
          {
-            s1 = RemoveBlock(s1 , start_char, tag, end_char, true, replacement);
+            s1 = RemoveBlock(s1, start_char, tag, end_char, true, replacement);
             s2 = RemoveBlock(s2, start_char, tag, end_char, true, replacement);
             return (s1 + replacement + s2);
          }
          else
          {
             int j = s1.Length, k = s2.Length, l = s.Length;
+            int len2 = l - j - k;
             s1 = RemoveBlock(s1, start_char, tag, end_char, do_remove);
             s2 = RemoveBlock(s2, start_char, tag, end_char, do_remove);
-            tag = s.Substring(j, l - j - k);
+            if (len2 < 0)
+               return s;
+            tag = s.Substring(j, len2);
             return (s1 + "\n" + tag + "\n" + s2);
          }
       }
