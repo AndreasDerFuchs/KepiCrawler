@@ -1,9 +1,10 @@
 ﻿<Window x:Name="MyWindow" x:Class="KepiCrawler.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="688" Width="720" Icon="Resources/KepiCrawler.ico">
+        Title="MainWindow" Height="788" Width="720" Icon="Resources/KepiCrawler.ico">
     <Grid x:Name="MyMainWin" Margin="0" RenderTransformOrigin="0.518,0.445">
-        <WebBrowser x:Name="webBrowser" Margin="3,-132,3,36" OpacityMask="Black" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
+        <!-- old Margin="3,-132,3,36" -->
+        <WebBrowser x:Name="webBrowser" Margin="3,-1,3,36" OpacityMask="Black" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
             <WebBrowser.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

@@ -77,7 +77,7 @@ namespace KepiCrawler
             InitializeComponent();
 
             string title = dictionary["Title"];
-            this.MyWindow.Title = title;
+            this.MyWindow.Title = title + " - Login: " + dictionary["User"] + " Pw: " + dictionary["Pw"];
             SetSizeAndPosition();
             SetAndDeleteLogDir();
             webBrowser.Navigated += (a, b) => { HideScriptErrors(webBrowser, true); };
@@ -322,7 +322,7 @@ namespace KepiCrawler
          mshtml.HTMLDocument doc2 = doc;
          mshtml.IHTMLElementCollection elc2 = doc2.all;
          bool check = false;
-         string fname="none";
+         string fname="no"; // "ne" might be added below to make it "none"
          int i = 0;
          MyState my_next_state = my_state;
          foreach (var x in elc2)
@@ -379,7 +379,19 @@ namespace KepiCrawler
                System.Console.WriteLine("BBB******l={6},m={5},i={4}: xx{3} = {0} = {2} chars***********", s0, s, 0, t, i, m, loop_cnt);
                x15.click();
             }
-            else if (s0.Equals("mshtml.HTMLInputElementClass") && s.Contains("timetablePageToolbar_dateWeekSelect") && my_state == MyState.KLASSEN)
+            else if (s0.Equals("mshtml.HTMLInputElementClass") && s.Contains("placeholder=\"Schulname\""))
+            {
+               // hier sollten wir value = schule setzen
+            }
+            else if (s0.Equals("mshtml.HTMLInputElementClass") && s.Contains("placeholder=\"Benutzer\""))
+            {
+               // hier sollten wir value = user setzen
+            }
+            else if (s0.Equals("mshtml.HTMLInputElementClass") && s.Contains("placeholder=\"Passwort\""))
+            {
+               // hier sollten wir value = password setzen
+            }
+            else if (s0.Equals("mshtml.HTMLInputElementClass"))//  && s.Contains("timetablePageToolbar_dateWeekSelect") && my_state == MyState.KLASSEN)
             {
                my_next_state = MyState.WOCHE;
                if (loop_cnt < 1000)
@@ -388,27 +400,36 @@ namespace KepiCrawler
                System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("de-DE");
                this.MyUpdateText.Text = String.Format("Update {0}: {1}", Convert.ToDouble(loop_cnt), DateTime.Now.ToString("G", ci));
                mytimer.Interval = dt_slow;
-               DateTime monday = DateTime.ParseExact(xx1.value, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
-               DateTime now = DateTime.Today;
 
-               if (now > monday.AddDays(4)) // e.g. monday is this week, and now is Saturday: Saturday > ((Monday+4) == Friday)
-                  m_caret = "fa fa-caret-right";
-               else if (now.AddDays(2) < monday) // e.g. monday is next week, and now is Friday: ((Friday+2)==Sunday) < Monday
-                  m_caret = "fa fa-caret-left";
-               else
+               try
                {
-                  m_caret = "supercalifragilisticexpialidocious";
-                  mytimer.Interval = dt_5min; // 5 Minute Wait
+                  DateTime monday = DateTime.ParseExact(xx1.value, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                  while (monday.DayOfWeek != DayOfWeek.Monday)
+                     monday = monday.AddDays(-1);
+                  DateTime now = DateTime.Today;
+
+                  if (now > monday.AddDays(4)) // e.g. monday is this week, and now is Saturday: Saturday > ((Monday+4) == Friday)
+                     m_caret = "fa fa-arrow-right";
+                  else if (now.AddDays(2) < monday) // e.g. monday is next week, and now is Friday: ((Friday+2)==Sunday) < Monday
+                     m_caret = "fa fa-arrow-left";
+                  else
+                  {
+                     m_caret = "supercalifragilisticexpialidocious";
+                     mytimer.Interval = dt_5min; // 5 Minute Wait
+                  }
+               }
+               finally
+               {
                }
             }
-            else if (s0.Equals("mshtml.HTMLSpanElementClass") && s.Contains("fa fa-caret-") && my_state == MyState.WOCHE)
+            else if (s0.Equals("mshtml.HTMLButtonElementClass") && s.Contains("fa fa-arrow-") && my_state == MyState.WOCHE)
             {
                my_next_state = MyState.KLASSEN;
                if (loop_cnt < 1000)
                   System.Console.WriteLine("DDD******l={6},m={5},i={4}: xx{3} = {0} = {2} chars***********", s0, s, 0, t, i, m, loop_cnt);
                if (s.Contains(m_caret))
                {
-                  x14.click();
+                  xx9.click();
                   mytimer.Interval = dt_slow;
                   System.Console.WriteLine("DDD******l={6},m={5},i={4}: xx{3} = {0} = {2} chars*********** clicked at {7}", s0, s, 0, t, i, m, loop_cnt, DateTime.Now.ToLongTimeString());
                }
@@ -462,6 +483,8 @@ namespace KepiCrawler
                      MyWindow.Topmost = false;
                   }
                }
+               else
+                  fname = fname + "ne"; // this will make fname = "none"
             }
          }
          if (loop_cnt < 1000)
