@@ -3,5 +3,6 @@
 *.cache
 *.exe
 *.pdb
+.*.swp
 bin/
 obj/
