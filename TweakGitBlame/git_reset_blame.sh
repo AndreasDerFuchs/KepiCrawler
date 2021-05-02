@@ -24,7 +24,7 @@ git checkout -b "$DUMMY_BRANCH" $INIT
 git merge --squash "$CURNT_BRANCH"
 git commit -m "Squashed Branch $CURNT_BRANCH at $(date)"
 sleep 1
-git merge "$CURNT_BRANCH" -m "Merge branch '$CURNT_BRANCH' into '$DUMMY_BRANCH'"
+git merge "$CURNT_BRANCH" -m "Merge branch '$CURNT_BRANCH' back and forth into a temporary squashed branch'"
 git commit -m "Merged Branch $CURNT_BRANCH at $(date)"
 git checkout "$CURNT_BRANCH"
 git merge "$DUMMY_BRANCH"
@@ -36,7 +36,7 @@ git config --unset user.email
 cd "$CURR_DIR"
 
 echo ""
-echo "try1: cd \"$CURR_DIR"\"
+echo "try1: cd ."
 echo "try2: git blame $(git rev-parse --show-toplevel)/Tweak_Log.txt"
 echo "try3: git rebase"
 echo "NOTE: git rebase will undo what this script did, unless you first try: git push"
