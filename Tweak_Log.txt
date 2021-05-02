@@ -7,7 +7,7 @@ liegt ein Script,
 mit dem Beitraege
 Changed Line 8 by Horst Bohne
 Changed Line 9 by Roland Becks
-werden koennen.
+Changed Line 10 by Horst Bohne
 Changed Line 11 by Horst Bohne
 vor allem
 die Datei: Tweak_Log.txt
@@ -51,3 +51,4 @@ Neue Zeile 50 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:2
 Neue Zeile 51 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:43 CEST 2021
 Neue Zeile 52 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:48 CEST 2021
 Neue Zeile 53 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:54 CEST 2021
+Neue Zeile 54 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 14:04:17 CEST 2021
