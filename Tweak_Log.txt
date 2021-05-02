@@ -1,0 +1,42 @@
+# KepiCrawler
+Der KepiCrawler prüft regelmäßig auf Stundenplanänderungen am Kepler-Gymnasium Tübingen und schickt ggf. eine Mail.
+Changed Line 3 by Horst Bohne
+# TweakGitBlame
+Im TweakGitBlame Verzeichnis
+liegt ein Script,
+mit dem Beitraege
+Changed Line 8 by Horst Bohne
+Changed Line 9 by Roland Becks
+werden koennen.
+Damit soll
+vor allem
+die Datei: Tweak_Log.txt
+Changed Line 14 by Horst Bohne
+-leer-
+-leer-
+Changed Line 17 by Roland Becks
+-leer-
+-leer-
+-leer-
+Changed Line 21 by Roland Becks
+-leer-
+-leer-
+-leer-
+-leer-
+-leer-
+Changed Line 27 by Horst Bohne
+-leer-
+Changed Line 29 by Horst Bohne
+-leer-
+Changed Line 31 by Uli Tausend
+Changed Line 32 by Horst Bohne
+Neue Zeile 33 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 09:14:43 CEST 2021
+Neue Zeile 34 von Roland Becks mit email: Roland@donotreply.com am Sun May  2 09:14:50 CEST 2021
+Neue Zeile 35 von Roland Becks mit email: Roland@donotreply.com am Sun May  2 09:14:52 CEST 2021
+Changed Line 36 by Roland Becks
+Neue Zeile 37 von Roland Becks mit email: Roland@donotreply.com am Sun May  2 09:15:37 CEST 2021
+Changed Line 38 by Horst Bohne
+Neue Zeile 39 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:25:44 CEST 2021
+Neue Zeile 40 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:25:56 CEST 2021
+Neue Zeile 41 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:24 CEST 2021
+Neue Zeile 42 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:38 CEST 2021
