@@ -6,6 +6,7 @@
 #  -r           wiederhole unendlich mit zufaelliger Pause
 #  beitrag.sh user [email]
 # Argumente
+#  -r           wiederhole unendlich mit zufaelliger Pause
 #  user 	der name des fiktiven benutzers
 #  email	die email des fiktiven nutzers
 #
