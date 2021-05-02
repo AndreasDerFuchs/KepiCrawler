@@ -1,4 +1,4 @@
-# KepiCrawler
+Changed Line 1 by Horst Bohne
 Der KepiCrawler prüft regelmäßig auf Stundenplanänderungen am Kepler-Gymnasium Tübingen und schickt ggf. eine Mail.
 Changed Line 3 by Horst Bohne
 # TweakGitBlame
@@ -41,3 +41,4 @@ Neue Zeile 40 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:2
 Neue Zeile 41 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:24 CEST 2021
 Neue Zeile 42 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:38 CEST 2021
 Neue Zeile 43 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:24:47 CEST 2021
+Neue Zeile 44 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:24:57 CEST 2021
