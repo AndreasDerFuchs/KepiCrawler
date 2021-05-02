@@ -8,7 +8,7 @@ mit dem Beitraege
 Changed Line 8 by Horst Bohne
 Changed Line 9 by Roland Becks
 werden koennen.
-Damit soll
+Changed Line 11 by Horst Bohne
 vor allem
 die Datei: Tweak_Log.txt
 Changed Line 14 by Horst Bohne
@@ -47,3 +47,4 @@ Neue Zeile 46 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:2
 Neue Zeile 47 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:15 CEST 2021
 Neue Zeile 48 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:21 CEST 2021
 Neue Zeile 49 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:29 CEST 2021
+Neue Zeile 50 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:35 CEST 2021
