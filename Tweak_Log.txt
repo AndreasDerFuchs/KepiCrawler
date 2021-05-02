@@ -1,5 +1,5 @@
 Changed Line 1 by Horst Bohne
-Der KepiCrawler prüft regelmäßig auf Stundenplanänderungen am Kepler-Gymnasium Tübingen und schickt ggf. eine Mail.
+Changed Line 2 by SomeoneElse
 Changed Line 3 by Bettina Erbe
 # TweakGitBlame
 Im TweakGitBlame Verzeichnis
