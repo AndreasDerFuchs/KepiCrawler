@@ -60,7 +60,7 @@ mv qwe.$$ ../Tweak_Log.txt
 git commit -a -m "$1 von $DD"
 
 if $REPEAT; then
-  let dt=10+$(($RANDOM %10))
+  let dt=600+$(($RANDOM %6000)) # neuen commit alle 10 bis 110 Minuten
   echo "warte $dt Sekunden"
   sleep $dt
 else
