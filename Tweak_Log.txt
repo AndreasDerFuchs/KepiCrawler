@@ -21,7 +21,7 @@ Changed Line 19 by Horst Bohne
 Changed Line 21 by Roland Becks
 -leer-
 Changed Line 23 by Horst Bohne
-Changed Line 24 by Bettina Erbe
+Changed Line 24 by Horst Bohne
 Changed Line 25 by Bettina Erbe
 -leer-
 Changed Line 27 by Horst Bohne
@@ -53,3 +53,4 @@ Neue Zeile 52 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:2
 Neue Zeile 53 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:54 CEST 2021
 Neue Zeile 54 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 13:40:28 CEST 2021
 Neue Zeile 55 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 13:40:34 CEST 2021
+Neue Zeile 56 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 13:40:42 CEST 2021
