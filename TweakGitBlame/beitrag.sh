@@ -1,8 +1,9 @@
 #!/bin/bash
 #Ändere und ergänze einen Beitrag von einem Fiktiven Nutzer
 # Syntax:
-#  beitrag.sh user [email]
+#  beitrag.sh [-r] user [email]
 # Argumente
+#  -r           wiederhole unendlich mit zufaelliger Pause
 #  user 	der name des fiktiven benutzers
 #  email	die email des fiktiven nutzers
 #
@@ -11,6 +12,13 @@
 #  die datei Tweak_Log.txt wird in einer zufälligen zeile geändert
 #  die Datei Tweak_Log.txt wird mit einer neuen Zeile ergänzt
 #  ein git commit wird ausgeführt mit user name und datum als commit message
+
+if [ "$1" = "-r" ]; then
+   REPEAT=true
+   shift
+else
+   REPEAT=false
+fi
 
 if [ -z "$1" ]; then
    echo "Syntax: $0 user email"
@@ -24,6 +32,7 @@ else
   EMAIL="$2"
 fi
 
+while true; do
 
 git config user.name "$1"
 git config user.email "$EMAIL"
@@ -49,3 +58,12 @@ tail -n +$n4 ../Tweak_Log.txt >> qwe.$$
 mv qwe.$$ ../Tweak_Log.txt
 
 git commit -a -m "$1 von $DD"
+
+if $REPEAT; then
+  let dt=10+$(($RANDOM %10))
+  echo "warte $dt Sekunden"
+  sleep $dt
+else
+  exit 0
+fi
+done
