@@ -1,0 +1,53 @@
+Changed Line 1 by Horst Bohne
+Der KepiCrawler prüft regelmäßig auf Stundenplanänderungen am Kepler-Gymnasium Tübingen und schickt ggf. eine Mail.
+Changed Line 3 by Bettina Erbe
+# TweakGitBlame
+Im TweakGitBlame Verzeichnis
+liegt ein Script,
+mit dem Beitraege
+Changed Line 8 by Horst Bohne
+Changed Line 9 by Roland Becks
+werden koennen.
+Changed Line 11 by Horst Bohne
+vor allem
+die Datei: Tweak_Log.txt
+Changed Line 14 by Horst Bohne
+-leer-
+-leer-
+Changed Line 17 by Roland Becks
+-leer-
+Changed Line 19 by Horst Bohne
+-leer-
+Changed Line 21 by Roland Becks
+-leer-
+Changed Line 23 by Horst Bohne
+Changed Line 24 by Bettina Erbe
+Changed Line 25 by Bettina Erbe
+-leer-
+Changed Line 27 by Horst Bohne
+-leer-
+Changed Line 29 by Horst Bohne
+-leer-
+Changed Line 31 by Uli Tausend
+Changed Line 32 by Horst Bohne
+Neue Zeile 33 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 09:14:43 CEST 2021
+Changed Line 34 by Horst Bohne
+Neue Zeile 35 von Roland Becks mit email: Roland@donotreply.com am Sun May  2 09:14:52 CEST 2021
+Changed Line 36 by Roland Becks
+Neue Zeile 37 von Roland Becks mit email: Roland@donotreply.com am Sun May  2 09:15:37 CEST 2021
+Changed Line 38 by Horst Bohne
+Neue Zeile 39 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:25:44 CEST 2021
+Changed Line 40 by Bettina Erbe
+Neue Zeile 41 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:24 CEST 2021
+Neue Zeile 42 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 11:26:38 CEST 2021
+Changed Line 43 by Horst Bohne
+Changed Line 44 by Horst Bohne
+Neue Zeile 45 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:25:16 CEST 2021
+Neue Zeile 46 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:25:29 CEST 2021
+Neue Zeile 47 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:15 CEST 2021
+Neue Zeile 48 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:21 CEST 2021
+Neue Zeile 49 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:29 CEST 2021
+Neue Zeile 50 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:35 CEST 2021
+Neue Zeile 51 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:43 CEST 2021
+Neue Zeile 52 von Horst Bohne mit email: Horst@donotreply.com am Sun May  2 12:27:48 CEST 2021
+Neue Zeile 53 von Bettina Erbe mit email: Bettina@donotreply.com am Sun May  2 12:27:54 CEST 2021
